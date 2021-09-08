@@ -37,6 +37,12 @@ class UI{
         itemPrice.value = "";
     };
 
+    static removeItems(){
+        deleteItem()
+        
+    };
+
+
 };
 
 
@@ -53,9 +59,53 @@ addItemBtn.addEventListener('submit',function(e){
 
     // Add-Items
     UI.addItem(item);
+
     // Clear user inputs
     UI.clearUserInputs();
+
+    // Remove items
+    UI.removeItems();
 
 });
 
 
+
+// Delete an item
+function deleteItem(){
+
+    let availableItems = document.getElementById('available-items');
+    let tRows = availableItems.getElementsByTagName('tr');
+    Array.from(tRows).forEach(function(e){
+        let deleteBtns = Array.from(e.getElementsByClassName('delete'));
+        deleteBtns.forEach(function(elm){
+            elm.addEventListener('click',function(){
+                elm.parentElement.parentElement.remove();
+            })
+        });
+    });
+};
+
+// Searched Items
+
+function searchItems(){
+
+    let query = document.querySelector('#query');
+    query.addEventListener('input',function(e){
+
+        let searchQuery = e.target.value.toLowerCase();
+        let availableItems = document.getElementById('available-items');
+        let tRows = availableItems.getElementsByTagName('tr');
+        Array.from(tRows).forEach(function(element){
+            if(element.getElementsByTagName('td')[0].innerText.toLowerCase().includes(searchQuery)){
+                element.style.display = 'block';
+                
+            }else{
+                element.style.display = 'none';
+            };
+
+        });
+    });
+
+};
+
+searchItems()
