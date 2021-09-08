@@ -48,7 +48,7 @@ addItemBtn.addEventListener('submit',function(e){
     let itemName = document.getElementById('itemName').value;
     let itemQuantity = document.getElementById('quantity').value;
     let itemPrice = document.getElementById('price').value;
-    let item = new makeItem(itemName,itemQuantity,itemPrice);
+    let item = new makeItem(itemName,itemQuantity,itemPrice*itemQuantity);
     // console.log(item);
 
     // Add-Items
@@ -56,5 +56,6 @@ addItemBtn.addEventListener('submit',function(e){
     // Clear user inputs
     UI.clearUserInputs();
 
-
 });
+
+
