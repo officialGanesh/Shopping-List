@@ -8,7 +8,6 @@ class makeItem{
 };
 
 
-
 // UI
 
 class UI{
@@ -35,6 +34,7 @@ class UI{
         itemName.value = "";
         itemQuantity.value = "";
         itemPrice.value = "";
+        
     };
 
     static removeItems(){
@@ -43,6 +43,19 @@ class UI{
     };
 
 
+    static notify(givenClass,message){
+        let nav = document.querySelector('.container');
+        let form = document.getElementById('form');
+        let div = document.createElement('div');
+        div.innerHTML = message;
+        div.classList = `alert alert-${givenClass}`   
+        div.setAttribute('role','alert')
+        div.style.cssText = 'text-align:center;'
+        // console.log(div);
+        nav.insertBefore(div,form);
+        setTimeout(function(){document.querySelector('.alert').remove()},1000)
+    };
+
 };
 
 
@@ -50,7 +63,7 @@ let addItemBtn = document.getElementById('form');
 addItemBtn.addEventListener('submit',function(e){
 
     e.preventDefault();
-
+    
     let itemName = document.getElementById('itemName').value;
     let itemQuantity = document.getElementById('quantity').value;
     let itemPrice = document.getElementById('price').value;
@@ -58,21 +71,28 @@ addItemBtn.addEventListener('submit',function(e){
     // console.log(item);
 
     // Add-Items
-    UI.addItem(item);
+    if(itemName==='' || itemQuantity === '' || itemPrice ===''){
+        UI.notify("primary","Please fill all the inputs.")
+    }else{
 
-    // Clear user inputs
-    UI.clearUserInputs();
-
-    // Remove items
-    UI.removeItems();
-
+        UI.addItem(item);
+        UI.notify('success','Item added ✔️');
+    
+    
+        // Clear user inputs
+        UI.clearUserInputs();
+    
+        // Remove items
+        UI.removeItems();
+    }
+    
+    
 });
-
 
 
 // Delete an item
 function deleteItem(){
-
+    
     let availableItems = document.getElementById('available-items');
     let tRows = availableItems.getElementsByTagName('tr');
     Array.from(tRows).forEach(function(e){
@@ -80,6 +100,7 @@ function deleteItem(){
         deleteBtns.forEach(function(elm){
             elm.addEventListener('click',function(){
                 elm.parentElement.parentElement.remove();
+                UI.notify('danger','Item removed 🔴');
             })
         });
     });
@@ -101,6 +122,7 @@ function searchItems(){
                 
             }else{
                 element.style.display = 'none';
+                
             };
 
         });
